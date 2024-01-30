@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package idVerification;
+
+// The greeting service definition.
+service IdVerification {
+  rpc ImageVerificationRequest(stream VerificationImageRequest)
+      returns (VerificationImageResponse);
+}
+
+// taken from
+// https://dev.to/techschoolguru/upload-file-in-chunks-with-client-streaming-grpc-golang-4loc
+// VerificationImageRequest
+message VerificationImageRequest {
+  oneof data {
+    ImageInfo image_info = 1;
+    bytes chunk_data = 2;
+  };
+}
+
+message ImageInfo {
+  string message_id = 1;
+  string image_type = 2;
+  string identification_type = 3;
+}
+
+message VerificationImageResponse {
+  string message_id = 1;
+  uint32 message_length = 2;
+}
